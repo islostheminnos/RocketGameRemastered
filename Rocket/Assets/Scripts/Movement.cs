@@ -8,9 +8,11 @@ public class Movement : MonoBehaviour
     [SerializeField] float rotateSpeed = 10f;
     float rotateZ = 1f;
     Rigidbody rb;
+    AudioSource audioSource;
     [SerializeField] float thrustPower = 1f;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -23,8 +25,15 @@ public class Movement : MonoBehaviour
 
     void Rocket_Thrust(){
         if(Input.GetKey(KeyCode.Space)){
+            
             rb.AddRelativeForce(0,thrustPower*Time.deltaTime,0);
+            if(!GetComponent<AudioSource>().isPlaying){
+                GetComponent<AudioSource>().Play();
+            }
         }
+         else{
+                GetComponent<AudioSource>().Stop();
+            }
     }
 
     void Rocket_Rotation(){
