@@ -8,7 +8,9 @@ public class Movement : MonoBehaviour
     [SerializeField] float rotateSpeed = 10f;
     float rotateZ = 1f;
     Rigidbody rb;
+   [SerializeField] AudioClip audioClip;
     AudioSource audioSource;
+    [SerializeField] ParticleSystem thrustParticle;
     [SerializeField] float thrustPower = 1f;
     void Start()
     {
@@ -27,12 +29,14 @@ public class Movement : MonoBehaviour
         if(Input.GetKey(KeyCode.Space)){
             
             rb.AddRelativeForce(0,thrustPower*Time.deltaTime,0);
-            if(!GetComponent<AudioSource>().isPlaying){
-                GetComponent<AudioSource>().Play();
+            if(!audioSource.isPlaying){
+                audioSource.PlayOneShot(audioClip);
+                thrustParticle.Play();
             }
         }
          else{
-                GetComponent<AudioSource>().Stop();
+            thrustParticle.Stop();
+                audioSource.Stop();
             }
     }
 
